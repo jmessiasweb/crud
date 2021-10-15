@@ -1,16 +1,26 @@
 micronaut:
   application:
     name: crud
-datasources:
+  server:
+    cors:
+      enabled: true
+    port: 8080
+    cassandra:
+      default:
+        basic:
+          contact-points:
+            - "127.0.0.1:9042"
+            - "5.6.7.8:9042"
+          session-keyspace: ${KEYSPACE:mykeyspace}
+          load-balancing-policy:
+            local-datacenter: ${DATACENTER:datacenter1}
+cassandra:
   default:
-    url: jdbc:h2:mem:devDb;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ''
-    schema-generate: CREATE_DROP
-    dialect: H2
-jpa.default.properties.hibernate.hbm2ddl.auto: update
-
+    clusterName: '"myCluster"'
+    contactPoint: '"localhost"'
+    port: 9160
+    maxSchemaAgreememtWaitSeconds: 20
+    ssl: true
 endpoints:
   health:
     enabled: true
